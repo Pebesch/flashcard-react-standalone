@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const QuestionnaireTableElement = ({ questionnaire }) => (
     <tr key={questionnaire.id} >
@@ -6,6 +6,6 @@ const QuestionnaireTableElement = ({ questionnaire }) => (
         <td>{questionnaire.title}</td>
         <td>{questionnaire.description}</td>
     </tr>
-);
+)
 
-export default QuestionnaireTableElement;
+export default QuestionnaireTableElement
