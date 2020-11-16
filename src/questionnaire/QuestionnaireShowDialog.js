@@ -9,9 +9,9 @@ export default class QuestionnaireShowDialog extends Component {
     }
   }
 
-  close = () => this.setState({ showModal: false });
+  close = () => this.setState({ showModal: false })
 
-  open = () => this.setState({ showModal: true });
+  open = () => this.setState({ showModal: true })
 
   render () {
     return (
