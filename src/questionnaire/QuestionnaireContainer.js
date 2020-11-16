@@ -1,10 +1,18 @@
 import React from 'react'
-import { Container } from 'reactstrap'
+import { Container, Row, Col } from 'reactstrap'
+import QuestionnaireCreateDialog from './QuestionnaireCreateDialog'
 import QuestionnaireTable from './QuestionnaireTable'
 
 const QuestionnaireContainer = ({ qs }) => (
     <Container>
-        <h2>{qs.length} Questionnaires found</h2>
+      <Row>
+        <Col>
+          <h2>{qs.length} Questionnaires</h2>
+        </Col>
+        <Col>
+          <QuestionnaireCreateDialog />
+        </Col>
+      </Row>
         <QuestionnaireTable qs = {qs} />
     </Container>
 )
