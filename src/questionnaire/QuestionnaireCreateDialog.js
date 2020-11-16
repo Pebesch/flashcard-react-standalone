@@ -11,7 +11,7 @@ export default class QuestionnaireCreateDialog extends Component {
     }
   }
 
-  close = () => this.setState({ showModal: false })
+  close = () => this.setState({ showModal: false, title: '', description: '' })
 
   open = () => this.setState({ showModal: true })
 
@@ -24,7 +24,7 @@ export default class QuestionnaireCreateDialog extends Component {
 
   handleSubmit = (event) => {
     this.create()
-    event.preventDefault()
+    this.close()
   }
 
   create = () => {
