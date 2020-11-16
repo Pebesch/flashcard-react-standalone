@@ -19,7 +19,6 @@ export default class QuestionnaireContainer extends Component {
   onCreate = (questionnaire) => {
     const newQ = { id: this.getNextId(), ...questionnaire }
     this.setState({ qs: this.state.qs.concat([newQ]) })
-    console.log(this.state.qs)
   }
 
   render () {
