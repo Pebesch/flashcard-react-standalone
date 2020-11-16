@@ -1,21 +1,43 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 import QuestionnaireCreateDialog from './QuestionnaireCreateDialog'
 import QuestionnaireTable from './QuestionnaireTable'
 
-const QuestionnaireContainer = ({ qs }) => (
-    <Container>
+export default class QuestionnaireContainer extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      qs: this.props.qs
+    }
+  }
+
+  getNextId = () => {
+    const currentNumberOfQs = this.state.qs.length
+    return currentNumberOfQs + 1
+  }
+
+  onCreate = (questionnaire) => {
+    const newQ = { id: this.getNextId(), ...questionnaire }
+    this.setState({ qs: this.state.qs.concat([newQ]) })
+    console.log(this.state.qs)
+  }
+
+  render () {
+    return (
+      <Container>
       <Row>
         <Col>
-          <h2>{qs.length} Questionnaires</h2>
+          <h2>{this.state.qs.length} Questionnaires</h2>
         </Col>
         <Col>
-          <QuestionnaireCreateDialog />
+          <QuestionnaireCreateDialog onCreate={this.onCreate}/>
         </Col>
       </Row>
-        <QuestionnaireTable qs = {qs} />
+        <QuestionnaireTable qs = {this.state.qs} />
     </Container>
-)
+    )
+  }
+}
 
 QuestionnaireContainer.defaultProps = {
   qs: [
@@ -26,5 +48,3 @@ QuestionnaireContainer.defaultProps = {
     { id: 5, title: 'Test Title 5', description: 'Test Description 5' }
   ]
 }
-
-export default QuestionnaireContainer

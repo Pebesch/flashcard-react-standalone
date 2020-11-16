@@ -19,16 +19,18 @@ export default class QuestionnaireCreateDialog extends Component {
   handleChange = (event) => {
     const change = {}
     change[event.target.name] = event.target.value
-    console.log(change)
     this.setState(change)
   }
 
   handleSubmit = (event) => {
+    this.create()
     event.preventDefault()
   }
 
   create = () => {
-
+    const title = this.state.title
+    const description = this.state.description
+    this.props.onCreate({ title: title, description: description })
   }
 
   render () {
@@ -69,7 +71,7 @@ export default class QuestionnaireCreateDialog extends Component {
 
                    <FormGroup>
                      <Col className="clearfix" style={{ padding: '.2rem' }}>
-                       <Button className="float-right" color="primary" onSubmit={this.handleSubmit} >Add</Button>
+                       <Button className="float-right" color="primary" onClick={this.handleSubmit} >Add</Button>
                      </Col>
                    </FormGroup>
                  </Form>
