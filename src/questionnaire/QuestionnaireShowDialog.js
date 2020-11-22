@@ -15,48 +15,48 @@ export default class QuestionnaireShowDialog extends Component {
 
   render () {
     return (
-          <div>
-            <Button color="secondary" onClick={this.open}
-                    className="float-right">Show</Button>
-            <Modal isOpen={ this.state.showModal } toggle={ this.close } size="lg"
-                        autoFocus={ false }>
-              <ModalHeader toggle={ this.close } >
-                Show Questionnaire
+      <div>
+        <Button color="secondary" onClick={this.open}
+          className="float-right">Show</Button>
+        <Modal isOpen={this.state.showModal} toggle={this.close} size="lg"
+          autoFocus={false}>
+          <ModalHeader toggle={this.close} >
+            Show Questionnaire
               </ModalHeader>
-              <ModalBody>
-                 <Form>
-                   <FormGroup row>
-                     <Label md={ 2 } for="formTitle">
-                       Title
+          <ModalBody>
+            <Form>
+              <FormGroup row>
+                <Label md={2} for="formTitle">
+                  Title
                      </Label>
-                     <Col md={ 10 }>
-                       <Input type="text" id="formTitle"
-                         defaultValue={ this.props.questionnaire.title }
-                         plaintext />
-                     </Col>
-                   </FormGroup>
+                <Col md={10}>
+                  <Input type="text" id="formTitle"
+                    defaultValue={this.props.questionnaire.title}
+                    plaintext />
+                </Col>
+              </FormGroup>
 
-                   <FormGroup row>
-                     <Label md={ 2 } for="formDescription">
-                       Description
+              <FormGroup row>
+                <Label md={2} for="formDescription">
+                  Description
                      </Label>
-                     <Col md={ 10 }>
-                       <Input type="text" id="formDescription"
-                         defaultValue={ this.props.questionnaire.description }
-                         plaintext />
-                     </Col>
-                   </FormGroup>
+                <Col md={10}>
+                  <Input type="text" id="formDescription"
+                    defaultValue={this.props.questionnaire.description}
+                    plaintext />
+                </Col>
+              </FormGroup>
 
-                   <FormGroup>
-                     <Col className="clearfix" style={{ padding: '.2rem' }}>
-                       <Button className="float-right" color="secondary"
-                        onClick={ this.close }>Close</Button>
-                     </Col>
-                   </FormGroup>
-                 </Form>
-              </ModalBody>
-            </Modal>
-          </div>
+              <FormGroup>
+                <Col className="clearfix" style={{ padding: '.2rem' }}>
+                  <Button className="float-right" color="secondary"
+                    onClick={this.close}>Close</Button>
+                </Col>
+              </FormGroup>
+            </Form>
+          </ModalBody>
+        </Modal>
+      </div>
     )
   }
 }
