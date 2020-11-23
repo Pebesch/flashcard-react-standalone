@@ -28,6 +28,11 @@ export default class QuestionnaireContainer extends Component {
     this.setState({ qs: this.state.qs })
   }
 
+  onDelete = (questionnaire) => {
+    const questionnaires = this.state.qs.filter(q => q.id !== questionnaire.id)
+    this.setState({ qs: questionnaires })
+  }
+
   render () {
     return (
       <Container>
@@ -39,7 +44,7 @@ export default class QuestionnaireContainer extends Component {
           <QuestionnaireCreateDialog onCreate={this.onCreate}/>
         </Col>
       </Row>
-        <QuestionnaireTable qs = {this.state.qs} onUpdate={this.onUpdate} />
+        <QuestionnaireTable qs = {this.state.qs} onUpdate={this.onUpdate} onDelete={this.onDelete} />
     </Container>
     )
   }

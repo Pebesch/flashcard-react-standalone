@@ -2,13 +2,13 @@ import React from 'react'
 import { Table } from 'reactstrap'
 import QuestionnaireTableElement from './QuestionnaireTableElement'
 
-const QuestionnaireTable = ({ qs, onUpdate }) => {
+const QuestionnaireTable = ({ qs, onUpdate, onDelete }) => {
   return (
         <Table hover>
             <tbody>
                 {
                     qs.map((q) => {
-                      return <QuestionnaireTableElement key={q.id} questionnaire={q} onUpdate={onUpdate}></QuestionnaireTableElement>
+                      return <QuestionnaireTableElement key={q.id} questionnaire={q} onUpdate={onUpdate} onDelete={onDelete}></QuestionnaireTableElement>
                     })
                 }
             </tbody>
