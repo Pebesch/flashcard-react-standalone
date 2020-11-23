@@ -1,54 +1,45 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 import QuestionnaireCreateDialog from './QuestionnaireCreateDialog'
 import QuestionnaireTable from './QuestionnaireTable'
 
-export default class QuestionnaireContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      qs: this.props.qs
-    }
-  }
+const QuestionnaireContainer = (props) => {
+  const [qs, setQuestionnaires] = useState(props.qs)
+  console.log(qs)
 
-  getNextId = () => {
-    const currentNumberOfQs = this.state.qs.length
+  const getNextId = () => {
+    const currentNumberOfQs = qs.length
     return currentNumberOfQs + 1
   }
 
-  onCreate = (questionnaire) => {
-    const newQ = { id: this.getNextId(), ...questionnaire }
-    this.setState({ qs: this.state.qs.concat([newQ]) })
+  const onCreate = (questionnaire) => {
+    const newQ = { id: getNextId(), ...questionnaire }
+    setQuestionnaires(qs.concat([newQ]))
   }
 
-  onUpdate = (questionnaire) => {
-    const toUpdate = this.state.qs.find(q => q.id === questionnaire.questionnaire.id)
-    toUpdate.title = questionnaire.questionnaire.title
-    toUpdate.description = questionnaire.questionnaire.description
-    this.setState({ qs: this.state.qs })
+  const onUpdate = (questionnaire) => {
+    // if the current iteration has the smae id, set the updated item, else leave it be
+    setQuestionnaires(qs.map((q) => q.id === questionnaire.questionnaire.id ? questionnaire.questionnaire : q))
   }
 
-  onDelete = (questionnaire) => {
-    const questionnaires = this.state.qs.filter(q => q.id !== questionnaire.id)
-    this.setState({ qs: questionnaires })
-  }
+  const onDelete = (questionnaire) => setQuestionnaires(qs.filter(q => q.id !== questionnaire.id))
 
-  render () {
-    return (
-      <Container>
-      <Row>
-        <Col>
-          <h2>{this.state.qs.length} Questionnaires</h2>
-        </Col>
-        <Col>
-          <QuestionnaireCreateDialog onCreate={this.onCreate}/>
-        </Col>
-      </Row>
-        <QuestionnaireTable qs = {this.state.qs} onUpdate={this.onUpdate} onDelete={this.onDelete} />
-    </Container>
-    )
-  }
+  return (
+    <Container>
+    <Row>
+      <Col>
+        <h2>{qs.length} Questionnaires</h2>
+      </Col>
+      <Col>
+        <QuestionnaireCreateDialog onCreate={onCreate}/>
+      </Col>
+    </Row>
+      <QuestionnaireTable qs = {qs} onUpdate={onUpdate} onDelete={onDelete} />
+  </Container>
+  )
 }
+
+export default QuestionnaireContainer
 
 QuestionnaireContainer.defaultProps = {
   qs: [

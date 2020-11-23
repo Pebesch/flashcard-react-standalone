@@ -3,6 +3,7 @@ import { Table } from 'reactstrap'
 import QuestionnaireTableElement from './QuestionnaireTableElement'
 
 const QuestionnaireTable = ({ qs, onUpdate, onDelete }) => {
+  console.log('Table ', qs)
   return (
         <Table hover>
             <tbody>
