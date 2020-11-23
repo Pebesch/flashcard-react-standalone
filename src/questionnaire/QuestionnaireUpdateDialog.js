@@ -11,9 +11,7 @@ const QuestionnaireUpdateDialog = ({ questionnaire: oldQuestionnaire, onUpdate }
 
   // Handle generic by assigning the name: https://hjnilsson.com/2016/12/11/generic-form-handleChange-in-react/
   const handleChange = (event) => {
-    const change = {}
-    change[event.target.name] = event.target.value
-    setQuestionnaire(...questionnaire, change)
+    setQuestionnaire({ ...questionnaire, [event.target.name]: event.target.value })
   }
 
   const handleSubmit = () => {
@@ -27,12 +25,12 @@ const QuestionnaireUpdateDialog = ({ questionnaire: oldQuestionnaire, onUpdate }
 
   return (
     <div>
-      <Button color="primary" onClick={open}
-              className="float-right">Add Questionnaire</Button>
+      <Button color="success" onClick={open}
+              className="float-right">Edit Questionnaire</Button>
       <Modal isOpen={ showModal } toggle={ close } size="lg"
                   autoFocus={ false }>
         <ModalHeader toggle={ close } >
-          Add Questionnaire
+          Edit Questionnaire
         </ModalHeader>
         <ModalBody>
             <Form>
@@ -62,7 +60,7 @@ const QuestionnaireUpdateDialog = ({ questionnaire: oldQuestionnaire, onUpdate }
 
               <FormGroup>
                 <Col className="clearfix" style={{ padding: '.2rem' }}>
-                  <Button className="float-right" color="primary" onClick={handleSubmit} >Add</Button>
+                  <Button className="float-right" color="primary" onClick={handleSubmit} >Update</Button>
                 </Col>
               </FormGroup>
             </Form>

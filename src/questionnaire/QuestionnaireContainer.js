@@ -21,6 +21,13 @@ export default class QuestionnaireContainer extends Component {
     this.setState({ qs: this.state.qs.concat([newQ]) })
   }
 
+  onUpdate = (questionnaire) => {
+    const toUpdate = this.state.qs.find(q => q.id === questionnaire.questionnaire.id)
+    toUpdate.title = questionnaire.questionnaire.title
+    toUpdate.description = questionnaire.questionnaire.description
+    this.setState({ qs: this.state.qs })
+  }
+
   render () {
     return (
       <Container>
@@ -32,7 +39,7 @@ export default class QuestionnaireContainer extends Component {
           <QuestionnaireCreateDialog onCreate={this.onCreate}/>
         </Col>
       </Row>
-        <QuestionnaireTable qs = {this.state.qs} />
+        <QuestionnaireTable qs = {this.state.qs} onUpdate={this.onUpdate} />
     </Container>
     )
   }
