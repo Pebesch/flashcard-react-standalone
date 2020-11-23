@@ -19,7 +19,7 @@ const QuestionnaireContainer = (props) => {
 
   const onUpdate = (questionnaire) => {
     // if the current iteration has the smae id, set the updated item, else leave it be
-    setQuestionnaires(qs.map((q) => q.id === questionnaire.questionnaire.id ? questionnaire.questionnaire : q))
+    setQuestionnaires(qs.map((q) => q.id === questionnaire.id ? questionnaire : q))
   }
 
   const onDelete = (questionnaire) => setQuestionnaires(qs.filter(q => q.id !== questionnaire.id))

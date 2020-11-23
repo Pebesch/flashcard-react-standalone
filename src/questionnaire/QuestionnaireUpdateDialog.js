@@ -20,7 +20,7 @@ const QuestionnaireUpdateDialog = ({ questionnaire: oldQuestionnaire, onUpdate }
   }
 
   const update = () => {
-    onUpdate({ questionnaire: questionnaire })
+    onUpdate(questionnaire)
   }
 
   return (
