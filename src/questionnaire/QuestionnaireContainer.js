@@ -5,7 +5,6 @@ import QuestionnaireTable from './QuestionnaireTable'
 
 const QuestionnaireContainer = (props) => {
   const [qs, setQuestionnaires] = useState(props.qs)
-  console.log(qs)
 
   const getNextId = () => {
     const currentNumberOfQs = qs.length
