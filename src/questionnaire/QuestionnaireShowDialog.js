@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Modal, Form, ModalHeader, FormGroup, Col, Label, Input, ModalBody } from 'reactstrap'
 
-const QuestionnaireShowDialog = (props) => {
+const QuestionnaireShowDialog = ({ questionnaire }) => {
   const [showModal, setShowModal] = useState(false)
 
   const close = () => setShowModal(false)
@@ -25,7 +25,7 @@ const QuestionnaireShowDialog = (props) => {
                     </Label>
               <Col md={10}>
                 <Input type="text" id="formTitle"
-                  defaultValue={this.props.questionnaire.title}
+                  defaultValue={questionnaire.title}
                   plaintext />
               </Col>
             </FormGroup>
@@ -36,7 +36,7 @@ const QuestionnaireShowDialog = (props) => {
                     </Label>
               <Col md={10}>
                 <Input type="text" id="formDescription"
-                  defaultValue={this.props.questionnaire.description}
+                  defaultValue={questionnaire.description}
                   plaintext />
               </Col>
             </FormGroup>
