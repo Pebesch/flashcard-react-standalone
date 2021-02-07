@@ -1,5 +1,6 @@
-const doFetch = ({ url, requestObject, dataFn, errorFn, messageFn }) => {
+const doFetch = ({ url, requestObject, dataFn, errorFn, messageFn, loadingFn = null }) => {
   const request = new Request(url, requestObject)
+  if (loadingFn !== null) { loadingFn(true) }
   fetch(request)
     .then(response => {
       if (response.ok) {
@@ -12,6 +13,7 @@ const doFetch = ({ url, requestObject, dataFn, errorFn, messageFn }) => {
       dataFn(json)
       errorFn(false)
       messageFn('')
+      if (loadingFn !== null) { loadingFn(false) }
     })
     .catch(error => {
       errorFn(true)

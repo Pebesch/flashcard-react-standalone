@@ -2,19 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 import QuestionnaireTable from './QuestionnaireTable'
 import QuestionnaireCreateDialog from './QuestionnaireCreateDialog'
+import doFetch from '../util/NetworkUtil'
+import Loader from '../util/Loader'
+import Message from '../app/Message'
 
 const QuestionnaireContainer = ({ serverUrl }) => {
   const [qs, setQuestionnaires] = useState([])
+  const [error, setError] = useState(false)
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const readAll = () => {
-    fetch(serverUrl)
-      .then(response => response.json())
-      .then(json => {
-        setQuestionnaires(json)
-      })
-      .catch(error => {
-        console.error(error)
-      })
+    doFetch({
+      url: serverUrl,
+      dataFn: setQuestionnaires,
+      errorFn: setError,
+      messageFn: setMessage,
+      loadingFn: setLoading,
+      css: 'danger'
+    })
   }
 
   useEffect(readAll, [])
@@ -83,17 +89,31 @@ const QuestionnaireContainer = ({ serverUrl }) => {
       .catch(error => console.error(error))
   }
 
+  const renderMessage = () => {
+    return error ? <Message message={ message } /> : null
+  }
+
+  const renderQuestionnaireTable = (qs, onUpdate, onDelete) => {
+    return loading ? <Loader /> : <QuestionnaireTable qs = {qs} onUpdate={onUpdate} onDelete={onDelete} />
+  }
+
   return (
     <Container>
-    <Row>
-      <Col>
-        <h2>{qs.length} Questionnaires</h2>
-      </Col>
-      <Col>
-        <QuestionnaireCreateDialog questionnaire = '' onCreateFn = {onCreate}/>
-      </Col>
-    </Row>
-      <QuestionnaireTable qs = {qs} onUpdate={onUpdate} onDelete={onDelete} />
+      <Row>
+        {renderMessage()}
+      </Row>
+      <Row>
+        <Col>
+          <h2>{qs.length} Questionnaires</h2>
+        </Col>
+        <Col>
+          <QuestionnaireCreateDialog questionnaire = '' create={ onCreate } />
+
+        </Col>
+      </Row>
+      <Row>
+        {renderQuestionnaireTable(qs, onUpdate, onDelete)}
+      </Row>
   </Container>
   )
 }
