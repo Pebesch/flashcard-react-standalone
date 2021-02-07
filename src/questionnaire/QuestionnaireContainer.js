@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 import QuestionnaireTable from './QuestionnaireTable'
-import Dialog from './Dialog'
+import QuestionnaireCreateDialog from './QuestionnaireCreateDialog'
 
 const QuestionnaireContainer = ({ serverUrl }) => {
   const [qs, setQuestionnaires] = useState([])
@@ -90,7 +90,7 @@ const QuestionnaireContainer = ({ serverUrl }) => {
         <h2>{qs.length} Questionnaires</h2>
       </Col>
       <Col>
-        <Dialog title = 'Add Questionnaire' buttonLabel = 'Add Questionnaire' actionButtonLabel = 'Add' questionnaire = '' readOnly = {false} css = 'primary' callbackFn = {onCreate}></Dialog>
+        <QuestionnaireCreateDialog questionnaire = '' onCreateFn = {onCreate}/>
       </Col>
     </Row>
       <QuestionnaireTable qs = {qs} onUpdate={onUpdate} onDelete={onDelete} />

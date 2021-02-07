@@ -1,10 +1,16 @@
 import React from 'react'
-import { Button } from 'reactstrap'
+import Dialog from './Dialog'
 
 const QuestionnaireDeleteDialog = ({ questionnaire, onDelete }) => {
-  const handleDelete = () => onDelete(questionnaire)
-
-  return <Button color="danger" onClick={handleDelete}>Delete</Button>
+  return <Dialog
+    title = 'Delete Questionnaire'
+    buttonLabel = 'Delete'
+    actionButtonLabel = 'Delete'
+    questionnaire = {questionnaire}
+    readOnly = {true}
+    css = 'danger'
+    callbackFn = {onDelete}>
+  </Dialog>
 }
 
 export default QuestionnaireDeleteDialog
