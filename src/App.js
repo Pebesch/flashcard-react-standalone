@@ -5,6 +5,7 @@ import Footer from './app/Footer.js'
 import QuestionnaireContainer from './questionnaire/QuestionnaireContainer.js'
 import { useEffect, useState } from 'react'
 import Message from './app/Message'
+import doFetch from './util/NetworkUtil.js'
 
 const App = () => {
   const [config, setConfig] = useState()
@@ -12,20 +13,12 @@ const App = () => {
   const [message, setMessage] = useState('')
 
   const readConfig = async () => {
-    try {
-      const response = await fetch('./application.json')
-      if (response.ok) {
-        console.log('Status: ' + response.status)
-        const json = await response.json()
-        setConfig(json)
-      } else {
-        throw new Error('Error reading file: ' + response.status)
-      }
-    } catch (error) {
-      setMessage('Konfigurations Fehler')
-      setError(true)
-      console.error('Error is: ' + error)
-    }
+    doFetch({
+      url: './application.json',
+      dataFn: setConfig,
+      errorFn: setError,
+      messageFn: setMessage
+    })
   }
 
   useEffect(readConfig, [])

@@ -3,14 +3,12 @@ const doFetch = ({ url, requestObject, dataFn, errorFn, messageFn }) => {
   fetch(request)
     .then(response => {
       if (response.ok) {
-        console.log(response)
         return response.json()
       } else {
         throw new Error(`${'Application encountered a problem'}: ${response.status}`)
       }
     })
     .then(json => {
-      console.log(json)
       dataFn(json)
       errorFn(false)
       messageFn('')
