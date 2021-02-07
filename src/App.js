@@ -33,7 +33,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header title="Flashcard Client with React" subtitle="Version 1"></Header>
+      <Header title="Flashcard Client with React" subtitle="Version 2"></Header>
       {renderMessage()}
       {renderQuestionnaireContainer(config)}
       <Footer copyright="The FHNW Team"></Footer>

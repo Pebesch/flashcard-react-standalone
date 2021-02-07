@@ -4,7 +4,7 @@ const doFetch = ({ url, requestObject, dataFn, errorFn, messageFn, loadingFn = n
   fetch(request)
     .then(response => {
       if (response.ok) {
-        return response.json()
+        return response.status === 204 ? '' : response.json()
       } else {
         throw new Error(`${'Application encountered a problem'}: ${response.status}`)
       }

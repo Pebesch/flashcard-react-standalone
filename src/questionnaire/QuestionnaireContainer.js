@@ -6,6 +6,8 @@ import doFetch from '../util/NetworkUtil'
 import Loader from '../util/Loader'
 import Message from '../app/Message'
 
+const headers = { headers: { 'Content-Type': 'application/json; charset=utf-8' } }
+
 const QuestionnaireContainer = ({ serverUrl }) => {
   const [qs, setQuestionnaires] = useState([])
   const [error, setError] = useState(false)
@@ -18,75 +20,44 @@ const QuestionnaireContainer = ({ serverUrl }) => {
       dataFn: setQuestionnaires,
       errorFn: setError,
       messageFn: setMessage,
-      loadingFn: setLoading,
-      css: 'danger'
+      loadingFn: setLoading
     })
   }
 
   useEffect(readAll, [])
 
   const onCreate = (questionnaire) => {
-    const request = new Request(serverUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(questionnaire)
+    doFetch({
+      url: serverUrl,
+      requestObject: { method: 'POST', body: JSON.stringify(questionnaire), ...headers },
+      dataFn: questionnaire => setQuestionnaires(qs.concat(questionnaire)),
+      errorFn: setError,
+      messageFn: setMessage,
+      loadingFn: setLoading
     })
-
-    fetch(request)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else {
-          throw new Error('Error on creating: ' + response.status)
-        }
-      })
-      .then(json => {
-        setQuestionnaires(qs.concat(json))
-      })
-      .catch(error => console.error(error))
   }
 
   const onUpdate = (questionnaire) => {
     // if the current iteration has the same id, set the updated item, else leave it be
-
-    const request = new Request(serverUrl + '/' + questionnaire.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(questionnaire)
+    doFetch({
+      url: serverUrl + '/' + questionnaire.id,
+      requestObject: { method: 'PUT', body: JSON.stringify(questionnaire), ...headers },
+      dataFn: questionnaire => setQuestionnaires(qs.map((q) => q.id === questionnaire.id ? questionnaire : q)),
+      errorFn: setError,
+      messageFn: setMessage,
+      loadingFn: setLoading
     })
-
-    fetch(request)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else {
-          throw new Error('Error on updating: ' + response.status)
-        }
-      })
-      .then(json => {
-        setQuestionnaires(qs.map((q) => q.id === questionnaire.id ? questionnaire : q))
-      })
-      .catch(error => console.error(error))
   }
 
   const onDelete = (questionnaire) => {
-    const request = new Request(serverUrl + '/' + questionnaire.id, {
-      method: 'DELETE'
+    doFetch({
+      url: serverUrl + '/' + questionnaire.id,
+      requestObject: { method: 'DELETE' },
+      dataFn: questionnaire => setQuestionnaires(qs.filter(q => q.id !== questionnaire.id)),
+      errorFn: setError,
+      messageFn: setMessage,
+      loadingFn: setLoading
     })
-
-    fetch(request)
-      .then(response => {
-        if (response.ok) {
-          setQuestionnaires(qs.filter(q => q.id !== questionnaire.id))
-        } else {
-          throw new Error('Error on deleting: ' + response.status)
-        }
-      })
-      .catch(error => console.error(error))
   }
 
   const renderMessage = () => {
@@ -107,7 +78,7 @@ const QuestionnaireContainer = ({ serverUrl }) => {
           <h2>{qs.length} Questionnaires</h2>
         </Col>
         <Col>
-          <QuestionnaireCreateDialog questionnaire = '' create={ onCreate } />
+          <QuestionnaireCreateDialog questionnaire = '' onCreateFn={ onCreate } />
 
         </Col>
       </Row>
