@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'reactstrap'
-import QuestionnaireCreateDialog from './QuestionnaireCreateDialog'
 import QuestionnaireTable from './QuestionnaireTable'
+import Dialog from './Dialog'
 
-const QuestionnaireContainer = (props) => {
+const QuestionnaireContainer = ({ serverUrl }) => {
   const [qs, setQuestionnaires] = useState([])
 
   const readAll = () => {
-    fetch(props.serverUrl)
+    fetch(serverUrl)
       .then(response => response.json())
       .then(json => {
         setQuestionnaires(json)
@@ -19,22 +19,69 @@ const QuestionnaireContainer = (props) => {
 
   useEffect(readAll, [])
 
-  const getNextId = () => {
-    const currentNumberOfQs = qs.length
-    return currentNumberOfQs + 1
-  }
-
   const onCreate = (questionnaire) => {
-    const newQ = { id: getNextId(), ...questionnaire }
-    setQuestionnaires(qs.concat([newQ]))
+    const request = new Request(serverUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(questionnaire)
+    })
+
+    fetch(request)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error('Error on creating: ' + response.status)
+        }
+      })
+      .then(json => {
+        setQuestionnaires(qs.concat(json))
+      })
+      .catch(error => console.error(error))
   }
 
   const onUpdate = (questionnaire) => {
-    // if the current iteration has the smae id, set the updated item, else leave it be
-    setQuestionnaires(qs.map((q) => q.id === questionnaire.id ? questionnaire : q))
+    // if the current iteration has the same id, set the updated item, else leave it be
+
+    const request = new Request(serverUrl + '/' + questionnaire.id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(questionnaire)
+    })
+
+    fetch(request)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error('Error on updating: ' + response.status)
+        }
+      })
+      .then(json => {
+        setQuestionnaires(qs.map((q) => q.id === questionnaire.id ? questionnaire : q))
+      })
+      .catch(error => console.error(error))
   }
 
-  const onDelete = (questionnaire) => setQuestionnaires(qs.filter(q => q.id !== questionnaire.id))
+  const onDelete = (questionnaire) => {
+    const request = new Request(serverUrl + '/' + questionnaire.id, {
+      method: 'DELETE'
+    })
+
+    fetch(request)
+      .then(response => {
+        if (response.ok) {
+          setQuestionnaires(qs.filter(q => q.id !== questionnaire.id))
+        } else {
+          throw new Error('Error on deleting: ' + response.status)
+        }
+      })
+      .catch(error => console.error(error))
+  }
 
   return (
     <Container>
@@ -43,7 +90,7 @@ const QuestionnaireContainer = (props) => {
         <h2>{qs.length} Questionnaires</h2>
       </Col>
       <Col>
-        <QuestionnaireCreateDialog onCreate={onCreate}/>
+        <Dialog title = 'Add Questionnaire' buttonLabel = 'Add Questionnaire' actionButtonLabel = 'Add' questionnaire = '' readOnly = {false} css = 'primary' callbackFn = {onCreate}></Dialog>
       </Col>
     </Row>
       <QuestionnaireTable qs = {qs} onUpdate={onUpdate} onDelete={onDelete} />
